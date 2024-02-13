@@ -12,7 +12,7 @@ stages:
 build_job:
   stage: Build
   script:
-    - docker login -u "${docker_name}" --password "${docker_password}"
+    - docker login -u "${docker_name}" --password-stdin "${docker_password}"
     - docker build -t dmajoros/repa:latest -f Dockerfile .
     - docker image ls
     - docker push dmajoros/repa:latest
