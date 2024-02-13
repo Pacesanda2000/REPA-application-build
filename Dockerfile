@@ -6,8 +6,6 @@
 
 FROM nginx:latest
 
-RUN pwd
-
-COPY * /usr/share/nginx/html/
+COPY ./ /usr/share/nginx/html/
 
 RUN ls -la /usr/share/nginx/html/
