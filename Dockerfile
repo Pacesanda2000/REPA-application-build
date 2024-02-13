@@ -8,4 +8,6 @@ FROM nginx:latest
 
 COPY ./ /usr/share/nginx/html/
 
-RUN ls -la /usr/share/nginx/html/
+RUN ls -la /usr/share/nginx/html/CSS
+
+RUN ls -la /usr/share/nginx/html/JS
