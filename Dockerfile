@@ -6,4 +6,6 @@
 
 FROM nginx:latest
 
+RUN ls -la .
+
 COPY * /usr/share/nginx/html/
