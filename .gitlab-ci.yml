@@ -2,9 +2,14 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
   GIT_STRATEGY: clone  
 
-image: docker:19.03.12
-services:
-  - docker:19.03.12-dind
+#image: docker:19.03.12
+#services:
+#  - docker:19.03.12-dind
+
+image: docker:latest
+services: 
+  - docker:dind
+
 
 stages:
   - Build
