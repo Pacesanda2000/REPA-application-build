@@ -20,8 +20,7 @@ stages:
 build_job:
   stage: Build
   script:
-    - export DOCKER_CLI_ENVIRONMENT=1
-    - docker login -u "$name" --password-stdin "$password"
+    - docker login -u "$name" --password "$password"
     - docker build -t dmajoros/repa:latest -f Dockerfile .
     - docker image ls
     - docker push dmajoros/repa:latest
