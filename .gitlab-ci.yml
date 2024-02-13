@@ -8,7 +8,6 @@ services:
 
 stages:
   - Build
-  - Run
 
 build_job:
   stage: Build
@@ -18,6 +17,3 @@ build_job:
     - docker image ls
     - docker push dmajoros/repa:latest
     - docker logout
-
-
-
