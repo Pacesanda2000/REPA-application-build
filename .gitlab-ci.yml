@@ -1,0 +1,23 @@
+variables:
+    GIT_SSL_NO_VERIFY: "true"
+    GIT_STRATEGY: clone  
+
+image: docker:19.03.12
+services:
+  - docker:19.03.12-dind
+
+stages:
+  - Build
+  - Run
+
+build_job:
+  stage: Build
+  script:
+    - docker login -u "$name" --password "$password"
+    - docker build -t dmajoros/repa:latest -f Dockerfile .
+    - docker image ls
+    - docker push dmajoros/repa:latest
+    - docker logout
+
+
+
