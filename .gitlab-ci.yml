@@ -3,20 +3,8 @@ variables:
   GIT_STRATEGY: clone  
 
 stages:
-  - build
   - deploy
 
-build-job:
-  stage: build
-  image: docker:latest
-  services: 
-    - docker:dind
-  script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build -t dmajoros/repa:latest -f Dockerfile .
-    - docker image ls
-    - docker push dmajoros/repa:latest
-    - docker logout
 
 deploy-job:
   stage: deploy
