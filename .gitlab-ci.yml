@@ -13,6 +13,5 @@ deploy-job:
     entrypoint: ['']
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
-    - kubectl get pods
     - kubectl get nodes -o wide
 
