@@ -2,18 +2,28 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
   GIT_STRATEGY: clone  
 
-image: docker:latest
-services: 
-  - docker:dind
-
 stages:
-  - Build
+  - build
+  - deploy
 
-build_job:
-  stage: Build
+build-job:
+  stage: build
+  image: docker:latest
+  services: 
+    - docker:dind
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build -t dmajoros/repa:latest -f Dockerfile .
     - docker image ls
     - docker push dmajoros/repa:latest
     - docker logout
+
+deploy-job:
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config use-context david.majoros/k3s-connection:k3s-connection
+    - kubectl get pods
+    - kubectl get nodes -o wide
+
