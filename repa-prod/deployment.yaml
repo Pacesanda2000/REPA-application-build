@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: repa-app
+  name: repa-app
+  namespace: dmajoros
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: repa-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: repa-app
+    spec:
+      containers:
+      - image: dmajoros/repa:latest
+        name: repa
+        resources: {}
+status: {}
