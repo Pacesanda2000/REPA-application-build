@@ -19,6 +19,7 @@ build-job:
     - docker logout
 
 deploy-job:
+  stage: deploy
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
