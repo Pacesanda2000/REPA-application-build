@@ -32,7 +32,7 @@ deploy-job:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get node -o wide
     - kubectl create namespace prod
-    - kubectl create -f repa-prod/deployment.yaml
+    - kubectl apply -f repa-prod/deployment.yaml
     - kubectl create -f repa-prod/service.yaml
   when: manual
 
