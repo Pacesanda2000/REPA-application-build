@@ -33,7 +33,12 @@ deploy-job:
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get node -o wide
-    - kubectl create namespace prod
+    - |
+      if ! kubectl get namespace prod &> /dev/null; then
+        kubectl create namespace prod
+      else
+        echo "Namespace 'prod' already exists, skipping creation."
+      fi
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl create -f repa-prod/service.yaml
   when: manual
@@ -43,6 +48,8 @@ test-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
+  tags:
+    - otc_run_docker_k8s_xl
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get node -o wide
@@ -57,6 +64,8 @@ destroy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
+  tags:
+    - otc_run_docker_k8s_xl
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl delete deployment repa-app -n prod

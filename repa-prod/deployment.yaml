@@ -5,7 +5,7 @@ metadata:
   labels:
     app: repa-app
   name: repa-app
-  namespace: dmajoros
+  namespace: prod
 spec:
   replicas: 6
   selector:
