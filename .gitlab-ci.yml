@@ -64,11 +64,11 @@ destroy-job:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   tags:
-    - otc_run_docker_k8s_xl
+    - otc_run_sysbox_s
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
-    - kubectl delete -f deployment.yaml
-    - kubectl delete -f service.yaml
+    - kubectl delete -f repa-prod/deployment.yaml
+    - kubectl delete -f repa-prod/service.yaml
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
