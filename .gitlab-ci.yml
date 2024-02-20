@@ -5,6 +5,8 @@ variables:
 stages:
   - build
   - deploy
+  - test
+  - destroy
 
 build-job:
   stage: build
@@ -29,5 +31,36 @@ deploy-job:
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get nodes -o wide
+    - kubectl create namespace prod
+    - kubectl create -f repa-prod/deployment.yaml
+    - kubectl create -f repa-prod/service.yaml
   when: manual
+
+test-job:
+  stage: test
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config use-context david.majoros/k3s-connection:k3s-connection
+    - kubectl get nodes -o wide
+    - kubectl get namespace 
+    - kubectl get pod -n prod -o wide
+    - kubectl get service -n prod -o wide
+    - curl -IL http://10.207.0.110:31000
+  when: manual
+
+destroy-job:
+  stage: destroy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config use-context david.majoros/k3s-connection:k3s-connection
+    - kubectl delete deployment repa-app -n prod
+    - kubectl delete service repa-app -n prod
+    - kubectl delete namespace prod
+    - kubectl get namespace 
+  when: manual
+
 
