@@ -19,6 +19,7 @@ build-job:
     - docker image ls
     - docker push dmajoros/repa:latest
     - docker logout
+  when: manual
 
 deploy-job:
   stage: deploy
@@ -28,4 +29,5 @@ deploy-job:
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get nodes -o wide
+  when: manual
 
