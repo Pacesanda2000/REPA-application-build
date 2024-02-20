@@ -40,7 +40,7 @@ deploy-job:
         echo "Namespace 'prod' already exists, skipping creation."
       fi
     - kubectl apply -f repa-prod/deployment.yaml
-    - kubectl create -f repa-prod/service.yaml
+    - kubectl apply -f repa-prod/service.yaml
   when: manual
 
 test-job:
@@ -67,8 +67,8 @@ destroy-job:
     - otc_run_docker_k8s_xl
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
-    - kubectl delete deployment repa-app -n prod
-    - kubectl delete service repa-app -n prod
+    - kubectl delete -f repa-prod/deployment.yaml
+    - kubectl delete -f repa-prod/service.yaml
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
