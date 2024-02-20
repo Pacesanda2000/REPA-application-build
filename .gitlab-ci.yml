@@ -28,6 +28,9 @@ deploy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
+  tags:
+    - otc_run_sysbox_s
+
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl get node -o wide
