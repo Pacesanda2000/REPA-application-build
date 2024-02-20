@@ -64,7 +64,7 @@ destroy-job:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   tags:
-    - otc_run_docker_k8s_xl
+    - otc_run_docker_k8s_l
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
     - kubectl delete deployment repa-app -n prod
