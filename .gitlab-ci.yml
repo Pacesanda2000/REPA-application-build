@@ -56,6 +56,7 @@ test-job:
     - kubectl get namespace 
     - kubectl get pod -n prod -o wide
     - kubectl get service -n prod -o wide
+    - apk --no-cache add curl
     - curl -IL http://10.207.0.110:31000
   when: manual
 
