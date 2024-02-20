@@ -67,8 +67,8 @@ destroy-job:
     - otc_run_docker_k8s_xl
   script:
     - kubectl config use-context david.majoros/k3s-connection:k3s-connection
-    - kubectl delete deploy deployment.yaml -n prod
-    - kubectl delete -f repa-prod/service.yaml
+    - kubectl delete deployment repa-app -n prod
+    - kubectl delete service repa-app -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
