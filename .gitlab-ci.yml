@@ -1,7 +1,7 @@
 variables:
   GIT_SSL_NO_VERIFY: "true"
   GIT_STRATEGY: clone  
-  KUBE_CONTEXT: david.majoros/k3s-connection:k3s-connection
+  #KUBE_CONTEXT: david.majoros/k3s-connection:k3s-connection
 
 stages:
   - build
@@ -32,7 +32,7 @@ deploy-job:
   tags:
     - gitlab-runner-k3s
   script:
-    - kubectl config use-context $KUBE_CONTEXT
+    #- kubectl config use-context $KUBE_CONTEXT
     - kubectl get node -o wide
     - |
       if ! kubectl get namespace prod &> /dev/null; then
@@ -52,7 +52,7 @@ test-job:
   tags:
     - gitlab-runner-k3s
   script:
-    - kubectl config use-context $KUBE_CONTEXT
+    #- kubectl config use-context $KUBE_CONTEXT
     - kubectl get node -o wide
     - kubectl get namespace 
     - kubectl get pod -n prod -o wide
@@ -67,7 +67,7 @@ destroy-job:
   tags:
     - gitlab-runner-k3s
   script:
-    - kubectl config use-context $KUBE_CONTEXT
+    #- kubectl config use-context $KUBE_CONTEXT
     - kubectl delete deployment repa-app -n prod
     - kubectl delete service repa-app -n prod
     - kubectl delete namespace prod
