@@ -33,7 +33,7 @@ deploy-job:
     - gitlab-runner-k3s
   script:
     #- kubectl config use-context $KUBE_CONTEXT
-    - kubectl get node -o wide
+    #- kubectl get node -o wide
     - |
       if ! kubectl get namespace prod &> /dev/null; then
         kubectl create namespace prod
@@ -53,7 +53,7 @@ test-job:
     - gitlab-runner-k3s
   script:
     #- kubectl config use-context $KUBE_CONTEXT
-    - kubectl get node -o wide
+    #- kubectl get node -o wide
     - kubectl get namespace 
     - kubectl get pod -n prod -o wide
     - kubectl get service -n prod -o wide
