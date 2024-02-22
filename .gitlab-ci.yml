@@ -33,6 +33,7 @@ deploy-job:
     - gitlab-runner-k3s
   script:
     #- kubectl config use-context $KUBE_CONTEXT
+    - kubectl get pods --all-namespaces
     - kubectl get node -o wide
     - |
       if ! kubectl get namespace prod &> /dev/null; then
