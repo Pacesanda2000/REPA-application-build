@@ -31,6 +31,9 @@ deploy-job:
     entrypoint: ['']
   tags:
     - gitlab-runner-k3s
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
   script:
     #- kubectl config use-context $KUBE_CONTEXT
     - kubectl get pods --all-namespaces
