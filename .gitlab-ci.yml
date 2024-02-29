@@ -1,6 +1,6 @@
-variables:
-  GIT_SSL_NO_VERIFY: "true"
-  GIT_STRATEGY: clone  
+#variables:
+ # GIT_SSL_NO_VERIFY: "true"
+ # GIT_STRATEGY: clone  
 
 stages:
   - build
@@ -36,12 +36,7 @@ deploy-job:
   script:
     - kubectl get pods --all-namespaces
     - kubectl get node -o wide
-    - |
-      if ! kubectl get namespace prod &> /dev/null; then
-        kubectl create namespace prod
-      else
-        echo "Namespace 'prod' already exists, skipping creation."
-      fi
+    - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
   when: manual
