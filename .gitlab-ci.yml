@@ -28,8 +28,8 @@ deploy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+  #tags:
+  #  - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -46,8 +46,8 @@ test-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+  #tags:
+  #  - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -63,8 +63,8 @@ destroy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+  #tags:
+  #  - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
