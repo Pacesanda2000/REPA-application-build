@@ -29,7 +29,7 @@ deploy-job:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   tags:
-    - dualedu
+    - david
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -47,7 +47,7 @@ test-job:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   tags:
-    - dualedu
+    - david
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -64,7 +64,7 @@ destroy-job:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   tags:
-    - dualedu
+    - david
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
