@@ -1,6 +1,6 @@
-#variables:
- # GIT_SSL_NO_VERIFY: "true"
- # GIT_STRATEGY: clone  
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+  GIT_STRATEGY: clone  
 
 stages:
   - build
@@ -13,8 +13,6 @@ build-job:
   image: docker
   services: 
     - docker:dind
-  tags:
-    - otc_run_docker_m 
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build -t dmajoros/repa:latest -f Dockerfile .
@@ -28,8 +26,8 @@ deploy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+#  tags:
+ #   - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -46,8 +44,8 @@ test-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+#  tags:
+#    - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
@@ -63,8 +61,8 @@ destroy-job:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  tags:
-    - gitlab-runner-k3s
+#  tags:
+#    - gitlab-runner-k3s
   before_script:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
