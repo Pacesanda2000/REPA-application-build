@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     app: repa-app
-  name: repa-app
+  name: repa-deployment
   namespace: prod
 spec:
   replicas: 6

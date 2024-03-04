@@ -91,9 +91,9 @@ destroy-job:
     - export KUBECONFIG=k3s.yaml
   script:
     - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-    - kubectl delete deployment repa-app -n prod
-    - kubectl delete service repa-app -n prod
-    - kubectl delete ingress repa-app -n prod
+    - kubectl delete deployment repa-deployment -n prod
+    - kubectl delete service repa-service -n prod
+    - kubectl delete ingress repa-ingress -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
