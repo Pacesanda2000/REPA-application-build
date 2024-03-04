@@ -35,9 +35,12 @@ metallb-deploy-job:
     - export KUBECONFIG=k3s.yaml
   script:
     - kubectl get pods --all-namespaces
+    - kubectl label nodes -l '!node-role.kubernetes.io/master' node-role.kubernetes.io/worker=worker
     - kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl apply -f metallb/pool-1.yaml -n metallb-system
     - kubectl apply -f metallb/l2advertisement.yaml -n metallb-system
+    - kubectl -n metallb-system get pods
+    - kubectl api-resources| grep metallb
   when: manual
 
 app-deploy-job:
@@ -56,6 +59,7 @@ app-deploy-job:
     - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
+    - kubectl apply -f repa-prod/ingress.yaml
   when: manual
 
 test-job:
@@ -89,6 +93,7 @@ destroy-job:
     - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl delete deployment repa-app -n prod
     - kubectl delete service repa-app -n prod
+    - kubectl delete ingress repa-app -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual

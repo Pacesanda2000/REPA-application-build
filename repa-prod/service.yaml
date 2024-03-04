@@ -8,7 +8,6 @@ metadata:
 spec:
    selector:
      app: repa-app
-   type: LoadBalancer
    ports:
    - protocol: TCP
      port: 80
