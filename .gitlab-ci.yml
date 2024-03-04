@@ -23,7 +23,24 @@ build-job:
     - docker logout
   when: manual
 
-deploy-job:
+metallb-deploy-job:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  tags:
+    - david
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
+  script:
+    - kubectl get pods --all-namespaces
+    - kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+    - kubectl apply -f metallb/pool-1.yaml
+    - kubectl apply -f metallb/l2advertisement.yaml
+  when: manual
+
+app-deploy-job:
   stage: deploy
   image:
     name: bitnami/kubectl:latest
@@ -69,6 +86,7 @@ destroy-job:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
   script:
+    - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl delete deployment repa-app -n prod
     - kubectl delete service repa-app -n prod
     - kubectl delete namespace prod
