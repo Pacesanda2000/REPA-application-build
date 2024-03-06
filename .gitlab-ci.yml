@@ -36,7 +36,7 @@ metallb-deploy-job:
   script:
     - kubectl get pods --all-namespaces
     - kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-    - kubectl apply -f https://gitlab.dual.edu/dualedu/2022-2023/sis/dmajoros/ansible.git/pool-1.yaml -n metallb-system
+    - kubectl apply -f metallb/pool-1.yaml -n metallb-system
     - kubectl apply -f metallb/l2advertisement.yaml -n metallb-system
     - kubectl -n metallb-system get pods
     - kubectl api-resources| grep metallb
