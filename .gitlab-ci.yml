@@ -58,7 +58,7 @@ app-deploy-job:
     - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
-    - kubectl apply -f repa-prod/ingress.yaml
+#    - kubectl apply -f repa-prod/ingress.yaml
   when: manual
 
 test-job:
@@ -92,7 +92,7 @@ destroy-job:
     - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl delete deployment repa-deployment -n prod
     - kubectl delete service repa-service -n prod
-    - kubectl delete ingress repa-ingress -n prod
+#    - kubectl delete ingress repa-ingress -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
