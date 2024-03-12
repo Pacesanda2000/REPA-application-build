@@ -20,6 +20,7 @@ build-job:
     - docker build -t dmajoros/repa:latest -f Dockerfile .
     - docker image ls
     - docker push dmajoros/repa:latest
+    - docker -v
     - docker logout
   when: manual
 
