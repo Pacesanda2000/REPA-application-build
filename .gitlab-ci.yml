@@ -1,7 +1,3 @@
-#variables:
-#  GIT_SSL_NO_VERIFY: "true"
-#  GIT_STRATEGY: clone  
-
 stages:
   - build
   - deploy
@@ -20,7 +16,6 @@ build-job:
     - docker build -t dmajoros/repa:latest -f Dockerfile .
     - docker image ls
     - docker push dmajoros/repa:latest
-    - docker -v
     - docker logout
   when: manual
 
@@ -59,7 +54,7 @@ app-deploy-job:
     - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
-#    - kubectl apply -f repa-prod/ingress.yaml
+#   - kubectl apply -f repa-prod/ingress.yaml
   when: manual
 
 test-job:
@@ -74,6 +69,7 @@ test-job:
     - export KUBECONFIG=k3s.yaml
   script:
     - kubectl get node -o wide
+    - kubectl top nodes
     - kubectl get namespace 
     - kubectl get pod -n prod -o wide
     - kubectl get service -n prod -o wide
@@ -93,7 +89,7 @@ destroy-job:
     - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl delete deployment repa-deployment -n prod
     - kubectl delete service repa-service -n prod
-#    - kubectl delete ingress repa-ingress -n prod
+#   - kubectl delete ingress repa-ingress -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
