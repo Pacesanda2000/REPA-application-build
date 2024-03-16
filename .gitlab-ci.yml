@@ -54,7 +54,6 @@ app-deploy-job:
     - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
-    - 
   when: manual
 
 test-job:
