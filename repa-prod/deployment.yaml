@@ -6,7 +6,6 @@ metadata:
   name: repa-deployment
   namespace: prod
 spec:
-#  replicas: 6
   selector:
     matchLabels:
       app: repa-app
@@ -20,6 +19,6 @@ spec:
         name: repa-app
         resources: 
           limits:
-            cpu: 500m
-          requests:
             cpu: 200m
+          requests:
+            cpu: 80m
