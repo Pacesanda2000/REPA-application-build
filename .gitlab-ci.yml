@@ -49,11 +49,10 @@ app-deploy-job:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
   script:
-    - kubectl get pods --all-namespaces
-    - kubectl get node -o wide
     - kubectl apply -f repa-prod/namespace.yaml
     - kubectl apply -f repa-prod/deployment.yaml
     - kubectl apply -f repa-prod/service.yaml
+    - kubectl apply -f repa-prod/hpa.yaml
   when: manual
 
 test-job:
@@ -70,6 +69,8 @@ test-job:
     - kubectl get node -o wide
     - kubectl top nodes
     - kubectl get namespace 
+    - kubectl get hpa -n prod
+    - kubectl top pods -n prod
     - kubectl get pod -n prod -o wide
     - kubectl get service -n prod -o wide
   when: manual
@@ -86,8 +87,9 @@ destroy-job:
     - export KUBECONFIG=k3s.yaml
   script:
     - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-    - kubectl delete deployment repa-deployment -n prod
-    - kubectl delete service repa-service -n prod
+    - kubectl delete Deployment repa-deployment -n prod
+    - kubectl delete Service repa-service -n prod
+    - kubectl delete HorizontalPodAutoscaler repa-autoscaler -n prod
     - kubectl delete namespace prod
     - kubectl get namespace 
   when: manual
