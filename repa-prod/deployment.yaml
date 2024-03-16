@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-#  creationTimestamp: null
   labels:
     app: repa-app
   name: repa-deployment
@@ -11,10 +10,8 @@ spec:
   selector:
     matchLabels:
       app: repa-app
-#  strategy: {}
   template:
     metadata:
-#      creationTimestamp: null
       labels:
         app: repa-app
     spec:
@@ -26,4 +23,3 @@ spec:
             cpu: 500m
           requests:
             cpu: 200m
-#status: {}
