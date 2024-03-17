@@ -69,10 +69,9 @@ test-job:
     - kubectl get node -o wide
     - kubectl top nodes
     - kubectl get namespace 
-    - kubectl get hpa -n prod
     - kubectl top pods -n prod
     - kubectl get pod -n prod -o wide
-    - kubectl get service -n prod -o wide
+    - kubectl get deployment,service,hpa -n prod -o wide
   when: manual
 
 destroy-job:
