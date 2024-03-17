@@ -19,6 +19,6 @@ spec:
         name: repa-app
         resources: 
           limits:
-            cpu: 200m
+            cpu: 170m
           requests:
             cpu: 80m
