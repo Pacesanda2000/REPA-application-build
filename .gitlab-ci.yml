@@ -30,10 +30,10 @@ metallb-deploy-job:
     - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
     - export KUBECONFIG=k3s.yaml
   script:
-    - kubectl get pods --all-namespaces
     - kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
     - kubectl apply -f metallb/pool-1.yaml -n metallb-system
     - kubectl apply -f metallb/l2advertisement.yaml -n metallb-system
+    - kubectl scale deployment controller -n metallb-system --replicas=2
     - kubectl -n metallb-system get pods
     - kubectl api-resources| grep metallb
   when: manual
