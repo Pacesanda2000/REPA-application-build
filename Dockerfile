@@ -1,8 +1,8 @@
-FROM nginx:latest
+FROM nginx:latest                           #
 
-LABEL maintainer="David Majoros"
+LABEL maintainer="David Majoros"            #
 
-COPY ./ /usr/share/nginx/html/
+COPY ./ /usr/share/nginx/html/              #
 
-RUN ls -la /usr/share/nginx/html/CSS
-RUN ls -la /usr/share/nginx/html/JS
+RUN ls -la /usr/share/nginx/html/CSS        #
+RUN ls -la /usr/share/nginx/html/JS         #
