@@ -14,8 +14,6 @@ spec:
       labels:
         app: repa-app
     spec:
-      nodeSelector: 
-        nodetype: worker 
       containers:
       - image: dmajoros/repa:latest
         name: repa-app
