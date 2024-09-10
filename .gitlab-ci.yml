@@ -1,0 +1,95 @@
+stages:
+  - build
+  - deploy
+  - test
+  - destroy
+
+build-job:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  tags:
+    - dualedu-docker
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t dmajoros/repa:latest -f Dockerfile .
+    - docker image ls
+    - docker push dmajoros/repa:latest
+    - docker logout
+  when: manual
+
+metallb-deploy-job:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  tags:
+    - david
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
+  script:
+    - kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+    - kubectl apply -f metallb/pool-1.yaml -n metallb-system
+    - kubectl apply -f metallb/l2advertisement.yaml -n metallb-system
+    - kubectl scale deployment controller -n metallb-system --replicas=2
+    - kubectl -n metallb-system get pods
+    - kubectl api-resources| grep metallb
+  when: manual
+
+app-deploy-job:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  tags:
+    - david
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
+  script:
+    - kubectl apply -f repa-prod/namespace.yaml
+    - kubectl apply -f repa-prod/deployment.yaml
+    - kubectl apply -f repa-prod/service.yaml
+    - kubectl apply -f repa-prod/hpa.yaml
+  when: manual
+
+test-job:
+  stage: test
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  tags:
+    - david
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
+  script:
+    - kubectl get node -o wide
+    - kubectl top nodes
+    - kubectl get namespace
+    - kubectl top pods -n prod
+    - kubectl get pod -n prod -o wide
+    - kubectl get deployment,service,hpa -n prod -o wide
+  when: manual
+
+destroy-job:
+  stage: destroy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  tags:
+    - david
+  before_script:
+    - echo "$SERVICE_ACCOUNT_KEY" > k3s.yaml
+    - export KUBECONFIG=k3s.yaml
+  script:
+    - kubectl delete -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+    - kubectl delete Deployment repa-deployment -n prod
+    - kubectl delete Service repa-service -n prod
+    - kubectl delete HorizontalPodAutoscaler repa-autoscaler -n prod
+    - kubectl delete namespace prod
+    - kubectl get namespace
+  when: manual
+
