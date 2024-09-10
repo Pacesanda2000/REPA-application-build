@@ -1,0 +1,15 @@
+apiVersion: v1          #verzia API
+kind: Service           #typ objektu v K3S
+metadata:               #metadata objektu
+  name: repa-service    #nazov objektu
+  labels:
+    app: repa-app
+  namespace: prod       #namespace, v ktorom bezi sluzba
+spec:                   #specifikacia objektu
+  selector:             #selektovanie, kriteria vyberu
+    app: repa-app       #nazov deploymentu pre exponovanie
+  ports:                #porty, ktore maju byt exponovane
+  - protocol: TCP       #nazov protokolu
+    port: 80            #port, na ktorom bude sluzba dostupna
+    targetPort: 80      #port, na ktory budu presmerovane poziadavky
+  type: LoadBalancer    #typ sluzby
