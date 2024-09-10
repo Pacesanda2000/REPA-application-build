@@ -1,0 +1,24 @@
+apiVersion: apps/v1                       #verzia API
+kind: Deployment                          #typ objektu K3S
+metadata:                                 #metadata objektu
+  labels:                                 #definovanie stitku
+    app: repa-app                         #stitok aplikacie
+  name: repa-deployment                   #nazov objektu
+  namespace: prod                         #namespace, v ktorom bezi objekt
+spec:                                     #specifikacia objektu
+  selector:                               #selektovanie, kriteria vyberu
+    matchLabels:                          #definovanie zhody stitkov
+      app: repa-app                       #vyber stitku
+  template:                               #definovanie sablony vytvorenia
+    metadata:
+      labels:
+        app: repa-app
+    spec:                                 #specifikacia podu
+      containers:                         #definicia kontajnera
+      - image: dmajoros/repa:latest       #odkaz na Docker image
+        name: repa-app                    #meno kontajnera
+        resources:                        #nastavenia zdrojov kontajnera
+          limits:                         #maximalny limit
+            cpu: 170m                     #maximalny limit pre CPU
+          requests:                       #poziadavky zdrojov
+            cpu: 80m                      #poziadavka na CPU
