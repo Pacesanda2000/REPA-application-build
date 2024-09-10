@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1    #verzia API
+kind: L2Advertisement             #typ objektu K3S
+metadata:                         #metadata objektu
+  name: duallab                   #nazov objektu
+  namespace: metallb-system       #namespace, v ktorom bezi objekt
+spec:                             #specifikacia objekt
+  ipAddressPools:                 #nazov poolu, z ktoreho sa priraduju IP adresy
+  - first-pool
