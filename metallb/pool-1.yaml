@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1    #verzia API
+kind: IPAddressPool               #typ objektu K3S
+metadata:                         #metadata objektu
+  name: first-pool                #nazov objektu
+  namespace: metallb-system       #namespace, v ktorom bezi objekt
+spec:                             #specifikacia objekt
+  addresses:                      #rozsah poskytnytych IP adries
+  - 10.207.0.1-10.207.0.3
