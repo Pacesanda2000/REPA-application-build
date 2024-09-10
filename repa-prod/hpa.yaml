@@ -1,0 +1,20 @@
+apiVersion: autoscaling/v2        #verzia API
+kind: HorizontalPodAutoscaler     #typ objektu K3S
+metadata:                         #metadata objektu
+  name: repa-autoscaler           #nazov objektu
+  namespace: prod                 #namespace, v ktorom bezi objekt
+spec:                             #specifikacia sluzby
+  scaleTargetRef:                 #odkaz, na ktory bude cielit autoscaler
+    apiVersion: apps/v1           #verzia API
+    kind: Deployment              #typ objektu K3S
+    name: repa-deployment         #nazov objektu
+  minReplicas: 2                  #minimalny pocet replik pre deployment
+  maxReplicas: 10                 #maximalny pocer replik pre deployment
+  metrics:                        #rozhodujuce metriky
+  - type: Resource                #typ rozhodujucej metriky
+    resource:                     #zdroj metriky, ktora rozhoduje =>
+      name: cpu                   #o navyseni repli, v tomto pripade CPU
+      target:                     #sledovany stav zdroja
+        type: Utilization         #v tomto pripade vyuzitie CPU
+        averageUtilization: 5     #ak sa presiahne vyuzitie CPU nad 5% =>
+                                  #navysia sa repliky
